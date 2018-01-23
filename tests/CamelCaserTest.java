@@ -21,7 +21,19 @@ public class CamelCaserTest {
     @Test
     public void testInvalidFormat() {
         try {
-            CamelCaser.camelCase("2 nice 4 u");
+            CamelCaser.camelCase("2 nice");
+            fail("Expected an IllegalArgumentException to be Thrown");
+        }
+        catch (IllegalArgumentException e){
+            assertEquals("Invalid Format", e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void testInvalidFormatSecondWord() {
+        try {
+            CamelCaser.camelCase("good 4 u");
             fail("Expected an IllegalArgumentException to be Thrown");
         }
         catch (IllegalArgumentException e){
@@ -40,5 +52,39 @@ public class CamelCaserTest {
         }
     }
 
+    @Test
+    public void testOnlyWhiteSpaces() {
+        assertEquals("", CamelCaser.camelCase("     "));
+    }
+
+    @Test
+    public void testWithoutWhiteSpaces() {
+        assertEquals("amazingRace", CamelCaser.camelCase("amazingrace"));
+    }
+
+    @Test
+    public void testFirstLetterUpperCase() {
+        assertEquals("utkarshaB", CamelCaser.camelCase("Utkarsha b"));
+    }
+
+    @Test
+    public void testAllUpperCase() {
+        assertEquals("amazingGreatRace", CamelCaser.camelCase("AMAZING GREAT RACE"));
+    }
+
+    @Test
+    public void testOneWord() {
+        assertEquals("single", CamelCaser.camelCase("single"));
+    }
+
+    @Test
+    public void testDigitInTheMiddle() {
+        assertEquals("goodM8", CamelCaser.camelCase("good m8"));
+    }
+
+    @Test
+    public void testEndingWithWhiteSpace() {
+        assertEquals("thisDog", CamelCaser.camelCase("this dog "));
+    }
 
 }
