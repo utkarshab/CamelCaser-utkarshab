@@ -9,7 +9,7 @@ public class CamelCaser {
         boolean invalidChar = false, invalidFormat = false, nullInput=false; //to check for exceptions
         inputString=inputString.toLowerCase();
         char previousChar = inputString.charAt(0);
-        //checking if any exceptions in first letter of inputString
+        //checking if any exceptions in first letter of input string
         if(previousChar!=' ')
             outputString.append(previousChar);
         if(Character.isDigit(previousChar))
