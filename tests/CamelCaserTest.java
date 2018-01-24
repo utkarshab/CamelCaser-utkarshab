@@ -18,6 +18,28 @@ public class CamelCaserTest {
         assertEquals("Invalid Character", e.getMessage());
     }
 }
+
+    @Test
+    public void testStartsWithInvalidCharacter() {
+        try {
+            CamelCaser.camelCase("?ow are you");
+            fail("Expected an IllegalArgumentException to be Thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Invalid Character", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testMultipleExceptions() {
+        try {
+            CamelCaser.camelCase("?ow 4re you");
+            fail("Expected an IllegalArgumentException to be Thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Invalid Character", e.getMessage());
+            //invalid character exception because it's broader
+        }
+    }
+
     @Test
     public void testInvalidFormat() {
         try {
@@ -42,9 +64,9 @@ public class CamelCaserTest {
     }
 
     @Test
-    public void testNullInput() {
+    public void testOnlyDigits() {
         try {
-            CamelCaser.camelCase(null);
+            CamelCaser.camelCase("24567");
             fail("Expected an IllegalArgumentException to be Thrown");
         }
         catch (IllegalArgumentException e){
@@ -53,13 +75,19 @@ public class CamelCaserTest {
     }
 
     @Test
-    public void testOnlyWhiteSpaces() {
-        assertEquals("", CamelCaser.camelCase("     "));
+    public void testNullInput() {
+        try {
+            CamelCaser.camelCase("\0");
+            fail("Expected an IllegalArgumentException to be Thrown");
+        }
+        catch (IllegalArgumentException e){
+            assertEquals("Null Input", e.getMessage());
+        }
     }
 
     @Test
-    public void testWithoutWhiteSpaces() {
-        assertEquals("amazingRace", CamelCaser.camelCase("amazingrace"));
+    public void testOnlyWhiteSpaces() {
+        assertEquals("", CamelCaser.camelCase("    "));
     }
 
     @Test
@@ -85,6 +113,21 @@ public class CamelCaserTest {
     @Test
     public void testEndingWithWhiteSpace() {
         assertEquals("thisDog", CamelCaser.camelCase("this dog "));
+    }
+
+    @Test
+    public void testSingleLowerCase() {
+        assertEquals("a", CamelCaser.camelCase("a"));
+    }
+
+    @Test
+    public void testSingleUpperCase() {
+        assertEquals("a", CamelCaser.camelCase("A"));
+    }
+
+    @Test
+    public void testAllDigitsOneLetter() {
+        assertEquals("u4567", CamelCaser.camelCase("u4567"));
     }
 
 }
